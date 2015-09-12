@@ -7,14 +7,17 @@
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/listFinishedTasks/}
 #' @usage listFinishedTasks()
+#' @examples \dontrun{
+#' listFinishedTasks()
+#' }
 
 listFinishedTasks <- function(){
 	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
 	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
-	res <- httr::GET(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/listFinishedTasks"))
-	httr::stop_for_status(res)
-	tasklist <- XML::xmlToList(httr::content(res))
+	res <- GET("http://cloud.ocrsdk.com/listFinishedTasks", authenticate(app_id, app_pass))
+	stop_for_status(res)
+	tasklist <- xmlToList(httr::content(res))
 
 	if(is.null(tasklist)){
 		cat("No finished tasks in the application. \n")

@@ -10,19 +10,20 @@
 #' @return Data frame with details of the task associated with the submitted Image
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/processBarcodeField/}
-#' @examples
-#' # processBarcodeField(file_path="file_path")
+#' @examples \dontrun{
+#' processBarcodeField(file_path="file_path")
+#' }
 
-processBarcodeField <- function(file_path=NULL, barcodeType="autodetect", region="-1,-1,-1,-1",containsBinaryData="false",pdfPassword="",description=""){
+processBarcodeField <- function(file_path=NULL, barcodeType="autodetect", region="-1,-1,-1,-1", containsBinaryData="false", pdfPassword="", description=""){
 	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
 	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
 	if(is.null(file_path)) stop("Must specify file_path")
 
 	querylist = list(barcodeType=barcodeType, region=region,containsBinaryData=containsBinaryData,pdfPassword=pdfPassword,description=description)
-	res <- httr::POST(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/processBarcodeField"), query=querylist, body=httr::upload_file(file_path))
-	httr::stop_for_status(res)
-	processdetails <- XML::xmlToList(httr::content(res))
+	res <- POST("http://cloud.ocrsdk.com/processBarcodeField", authenticate(app_id, app_pass), query=querylist, body=upload_file(file_path))
+	stop_for_status(res)
+	processdetails <- xmlToList(content(res))
 	
 	resdf <- do.call(rbind.data.frame, processdetails) # collapse to a data.frame
 	names(resdf) <- names(processdetails[[1]])[1:length(resdf)] # names for the df, adjust for <7

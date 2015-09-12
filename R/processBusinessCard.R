@@ -13,8 +13,9 @@
 #' @return Data frame with details of the task associated with the submitted Business Card
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/processBusinessCard/}
-#' @examples
-#' # processBusinessCard(file_path="file_path", language="English")
+#' @examples \dontrun{
+#' processBusinessCard(file_path="file_path", language="English")
+#' }
 
 processBusinessCard <- function(file_path=NULL, language="English", imageSource="auto", correctOrientation="true", 
 						correctSkew="true",exportFormat="vCard", description="", pdfPassword=""){
@@ -27,9 +28,9 @@ processBusinessCard <- function(file_path=NULL, language="English", imageSource=
 	querylist = list(language=language, imageSource=imageSource, correctOrientation=correctOrientation, 
 					 correctSkew=correctSkew,exportFormat=exportFormat, description=description, pdfPassword=pdfPassword)
 	
-	res <- httr::POST(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/processBusinessCard"), query=querylist, body=httr::upload_file(file_path))
-	httr::stop_for_status(res)
-	processdetails <- XML::xmlToList(httr::content(res))
+	res <- POST("http://cloud.ocrsdk.com/processBusinessCard", authenticate(app_id, app_pass), query=querylist, body=upload_file(file_path))
+	stop_for_status(res)
+	processdetails <- xmlToList(httr::content(res))
 	
 	resdf <- do.call(rbind.data.frame, processdetails) # collapse to a data.frame
 	names(resdf) <- names(processdetails[[1]])[1:length(resdf)] # names for the df, adjust for <7

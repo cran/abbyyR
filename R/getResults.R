@@ -6,6 +6,9 @@
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/getTaskStatus/}
 #' @usage getResults(output="")
+#' @examples \dontrun{
+#' getResults(output="")
+#' }
 
 getResults <- function(output=""){
 	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
@@ -16,6 +19,6 @@ getResults <- function(output=""){
 	for(i in 1:nrow(finishedlist)){
 		#RCurl::getURLContent(finishedlist$resultUrl[i], ssl.verifypeer = FALSE, useragent = "R")
 		#httr::getURL(ssl.verifypeer = FALSE)
-		download.file(finishedlist$resultUrl[i],destfile=paste0(output, finishedlist$id[i]), method="curl")
+		curl_download(finishedlist$resultUrl[i],destfile=paste0(output, finishedlist$id[i]))
 	}
 }

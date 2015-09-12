@@ -6,9 +6,10 @@
 #' @param pdfPassword Optional; If the pdf is password protected, put the password here.
 #' @return Data frame with all the details of the submitted image: id (task id), registrationTime, statusChangeTime, status (Submitted, Queued, InProgress, Completed, ProcessingFailed, Deleted, NotEnoughCredits), filesCount (No. of files), credits
 #' @export
-#' @references \url{http://ocrsdk.com/documentation/apireference/submitImage/}
-#' @examples
-#' # submitImage(file_path="/images/image1.png",taskId="task_id",pdfPassword="pdf_password")
+#' @references \url{http://ocrsdk.com/documentation/apireference/submitImage/} 
+#' @examples \dontrun{
+#' submitImage(file_path="/images/image1.png",taskId="task_id",pdfPassword="pdf_password")
+#' }
 
 submitImage <- function(file_path=NULL, taskId="", pdfPassword=""){
 	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
@@ -19,10 +20,10 @@ submitImage <- function(file_path=NULL, taskId="", pdfPassword=""){
 	# The API doesn't handle taskId="" and that is just as well as new task is created
 	if(taskId=="") querylist = list(pdfPassword=pdfPassword)
 	else querylist = list(taskId = taskId, pdfPassword=pdfPassword)
-	
-	res <- httr::POST(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/submitImage"), query=querylist, body=httr::upload_file(file_path))
-	httr::stop_for_status(res)
-	submitdetails <- XML::xmlToList(httr::content(res))
+
+	res <- POST("https://cloud.ocrsdk.com/submitImage", authenticate(app_id, app_pass), query=querylist, body=upload_file(file_path))
+	stop_for_status(res)
+	submitdetails <- xmlToList(content(res))
 	
 	resdf <- do.call(rbind.data.frame, submitdetails) # collapse to a data.frame
 	names(resdf) <- names(submitdetails[[1]])

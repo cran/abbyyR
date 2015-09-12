@@ -6,9 +6,10 @@
 #' @param taskId -id of the task; required
 #' @return A data frame with all the available details about the task
 #' @export
-#' @references \url{http://ocrsdk.com/documentation/apireference/getTaskStatus/}
-#' @examples
-#' # getTaskStatus(taskId="task_id")
+#' @references \url{http://ocrsdk.com/documentation/apireference/getTaskStatus/} 
+#' @examples \dontrun{
+#' getTaskStatus(taskId="task_id")
+#' }
 
 getTaskStatus <- function(taskId=NULL){
 	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
@@ -17,9 +18,9 @@ getTaskStatus <- function(taskId=NULL){
 	if(is.null(taskId)) stop("Must specify taskId")
 	
 	querylist = list(taskId = taskId)
-	res <- httr::GET(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/getTaskStatus"), query=querylist)
-	httr::stop_for_status(res)
-	taskdetails <- XML::xmlToList(httr::content(res))
+	res <- GET("http://cloud.ocrsdk.com/getTaskStatus", authenticate(app_id, app_pass), query=querylist)
+	stop_for_status(res)
+	taskdetails <- xmlToList(httr::content(res))
 	
 	resdf <- do.call(rbind.data.frame, taskdetails) # collapse to a data.frame
 	names(resdf) <- names(taskdetails[[1]])  

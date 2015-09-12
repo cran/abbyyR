@@ -25,9 +25,10 @@ processImage(file_path = NULL, language = "English",
 
 \item{correctSkew}{optional, default: true}
 
-\item{readBarcodes}{optional, default:}
+\item{readBarcodes}{optional, default: false}
 
-\item{exportFormat}{optional, default: txt}
+\item{exportFormat}{optional, default: txt;
+options: txt, txtUnstructured, rtf, docx, xlsx, pptx, pdfSearchable, pdfTextAndImages, pdfa, xml, xmlForCorrectedImage, alto}
 
 \item{description}{optional, default: ""}
 
@@ -40,7 +41,9 @@ Data frame with details of the task associated with the submitted Image
 This function processes an image
 }
 \examples{
-# processImage(file_path="file_path", language="English")
+\dontrun{
+processImage(file_path="file_path", language="English", exportFormat="txtUnstructured")
+}
 }
 \references{
 \url{http://ocrsdk.com/documentation/specifications/image-formats/}

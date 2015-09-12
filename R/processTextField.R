@@ -18,8 +18,9 @@
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/processTextField/}
 #' @references \url{http://ocrsdk.com/documentation/specifications/regular-expressions/}
-#' @examples
-#' # processTextField(file_path="file_path")
+#' @examples \dontrun{
+#' processTextField(file_path="file_path")
+#' }
 
 processTextField <- function(file_path=NULL, region="-1,-1,-1,-1", language="English", letterSet="", regExp="", textType="normal", oneTextLine="false", oneWordPerTextLine="false", 
 							 markingType="simpleText", placeholdersCount="1", writingStyle="default", description="",pdfPassword=""){
@@ -30,9 +31,9 @@ processTextField <- function(file_path=NULL, region="-1,-1,-1,-1", language="Eng
 	querylist = list(language=language, letterSet=letterSet, regExp=regExp, textType=textType, oneTextLine=oneTextLine, oneWordPerTextLine=oneWordPerTextLine, 
 							 markingType=markingType, placeholdersCount=placeholdersCount, writingStyle=writingStyle, description=description,pdfPassword=pdfPassword)
 	
-	res <- httr::POST(paste0("http://",app_id,":",app_pass,"@cloud.ocrsdk.com/processTextField"), query=querylist, body=httr::upload_file(file_path))
-	httr::stop_for_status(res)
-	processdetails <- XML::xmlToList(httr::content(res))
+	res <- POST("http://cloud.ocrsdk.com/processTextField", authenticate(app_id, app_pass), query=querylist, body=upload_file(file_path))
+	stop_for_status(res)
+	processdetails <- xmlToList(content(res))
 	
 	resdf <- do.call(rbind.data.frame, processdetails) # collapse to a data.frame
 	names(resdf) <- names(processdetails[[1]])[1:length(resdf)] # names for the df, adjust for <7
