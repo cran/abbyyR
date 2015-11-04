@@ -4,11 +4,15 @@
 #' @aliases abbyyR
 #'
 #' @description Easily OCR images, barcodes, forms, documents with machine readable zones, e.g. passports, right from R.
-#' Get the results in form of text files or detailed XML. The package provides access to Abbyy OCR -- see \url{http://ocrsdk.com/}. 
+#' Get the results in any one of a wide variety of formats, from text to XML. 
+#' The package provides access to Abbyy Cloud OCR -- see \url{http://ocrsdk.com/}. 
 #' Details about results of calls to the API can be found at \url{http://ocrsdk.com/documentation/specifications/status-codes/}.
 #'
-#' Your need credentials (application ID and password) to use this application. 
-#' If you haven't already, you can get this at \url{http://ocrsdk.com/}.
+#' To learn how to use abbyyR, see this vignette: \url{vignettes/Overview_of_abbyyR.html}. 
+#' Or, see how to scrape text from a folder of static Wisconsin Ads storyboards: \url{vignettes/wiscads.html}.
+#' 
+#' You need to get credentials (application ID and password) to use this application. 
+#' If you haven't already, get these at \url{http://ocrsdk.com/}.
 #' 
 #' @importFrom httr GET POST authenticate config stop_for_status upload_file content
 #' @importFrom XML  xmlToList
@@ -18,3 +22,64 @@
 #' @docType package
 #' @author Gaurav Sood
 NULL
+
+
+#' 
+#' Base POST AND GET functions. Not exported.
+
+#'
+#' GET
+#' 
+#' @param path path to specific API request URL 
+#' @param query query list 
+#' @return list
+
+abbyy_GET <- 
+function(path, query) {
+
+	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
+	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
+	
+	auth <- authenticate(app_id, app_pass)
+	res <- GET("https://cloud.ocrsdk.com/", path=path, auth, query=query)
+	abbyy_check(res)
+	res <- xmlToList(content(res))
+
+	res
+}
+
+
+#'
+#' POST
+#' 
+#' @param path path to specific API request URL 
+#' @param query query list
+#' @param body passing image through body 
+#' @return list
+
+abbyy_POST <- 
+function(path, query, body="") {
+
+	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
+	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
+	
+	auth <- authenticate(app_id, app_pass)
+	res <- POST("https://cloud.ocrsdk.com/", path=path, auth, query=query, body=body)
+	abbyy_check(res)
+	res <- xmlToList(content(res))
+
+	res
+}
+
+#'
+#' Request Response Verification
+#' 
+#' @param  req request
+#' @return in case of failure, a message
+
+abbyy_check <- 
+function(req) {
+  if (req$status_code < 400) return(invisible())
+
+  stop("HTTP failure: ", req$status_code, "\n", call. = FALSE)
+} 
