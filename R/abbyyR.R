@@ -3,16 +3,16 @@
 #' @name abbyyR-package
 #' @aliases abbyyR
 #'
-#' @description Easily OCR images, barcodes, forms, documents with machine readable zones, e.g. passports, right from R.
+#' @description OCR images, barcodes, forms, documents with machine readable zones, e.g. passports, right from R.
 #' Get the results in any one of a wide variety of formats, from text to XML. 
-#' The package provides access to Abbyy Cloud OCR -- see \url{http://ocrsdk.com/}. 
+#' The package provides access to Abbyy Cloud OCR. For more information, see \url{http://ocrsdk.com/}. 
 #' Details about results of calls to the API can be found at \url{http://ocrsdk.com/documentation/specifications/status-codes/}.
 #'
 #' To learn how to use abbyyR, see this vignette: \url{vignettes/Overview_of_abbyyR.html}. 
 #' Or, see how to scrape text from a folder of static Wisconsin Ads storyboards: \url{vignettes/wiscads.html}.
 #' 
 #' You need to get credentials (application ID and password) to use this application. 
-#' If you haven't already, get these at \url{http://ocrsdk.com/}.
+#' If you haven't already, get these at \url{http://ocrsdk.com/}. And set these using \code{\link{setapp}}
 #' 
 #' @importFrom httr GET POST authenticate config stop_for_status upload_file content
 #' @importFrom XML  xmlToList
@@ -37,7 +37,7 @@ NULL
 abbyy_GET <- 
 function(path, query) {
 
-	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
+	app_id = Sys.getenv("AbbyyAppId"); app_pass = Sys.getenv("AbbyyAppPassword")
 	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
 	auth <- authenticate(app_id, app_pass)
@@ -60,7 +60,7 @@ function(path, query) {
 abbyy_POST <- 
 function(path, query, body="") {
 
-	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
+	app_id = Sys.getenv("AbbyyAppId"); app_pass = Sys.getenv("AbbyyAppPassword")
 	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
 	auth <- authenticate(app_id, app_pass)
