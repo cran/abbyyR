@@ -2,23 +2,37 @@
 #'
 #' Get data from all the processed images.
 #' The function goes through the finishedTasks data frame and downloads all the files in resultsUrl
+#' 
 #' @param output Optional; folder to which you want to save the data from the processed images; Default is same folder as the script
+#' @param save_to_file Required; Default is TRUE; If true, it saves to file. Otherwise returns a data frame with results + other attributes from Abbyy
+#' 
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/getTaskStatus/}
-#' @usage getResults(output="")
+#' 
+#' @usage getResults(output="", save_to_file=TRUE)
+#' 
 #' @examples \dontrun{
-#' getResults(output="")
+#' getResults(save_to_file=FALSE)
 #' }
 
-getResults <- function(output=""){
-	app_id=getOption("AbbyyAppId"); app_pass=getOption("AbbyyAppPassword")
-	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
+getResults <- function(output="./", save_to_file=TRUE) {
+
+	finished_list <- listFinishedTasks()
 	
-	finishedlist <- listFinishedTasks()
-	
-	for(i in 1:nrow(finishedlist)){
-		#RCurl::getURLContent(finishedlist$resultUrl[i], ssl.verifypeer = FALSE, useragent = "R")
-		#httr::getURL(ssl.verifypeer = FALSE)
-		curl_download(finishedlist$resultUrl[i], destfile=paste0(output, finishedlist$id[i]))
+	if (!save_to_file) {
+		# Add additional col. to finished_list
+		finished_list$results <- NA
+		
+		for (i in 1:nrow(finished_list)) {
+			temp <- curl_fetch_memory(finished_list$resultUrl[i])
+			finished_list$results[i] <- rawToChar(temp$content)
+		}
+
+		return(invisible(finished_list))
 	}
+
+	for (i in 1:nrow(finished_list)){
+		curl_download(finished_list$resultUrl[i], destfile=paste0(output, finished_list$id[i]))
+	}
+	
 }

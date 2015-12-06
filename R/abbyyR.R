@@ -14,9 +14,10 @@
 #' You need to get credentials (application ID and password) to use this application. 
 #' If you haven't already, get these at \url{http://ocrsdk.com/}. And set these using \code{\link{setapp}}
 #' 
+#' @importFrom utils read.table
 #' @importFrom httr GET POST authenticate config stop_for_status upload_file content
 #' @importFrom XML  xmlToList
-#' @importFrom curl curl_download
+#' @importFrom curl curl_download curl_fetch_memory
 #' @importFrom RecordLinkage levenshteinDist
 #' @importFrom readr read_file
 #' @docType package
@@ -38,7 +39,7 @@ abbyy_GET <-
 function(path, query) {
 
 	app_id = Sys.getenv("AbbyyAppId"); app_pass = Sys.getenv("AbbyyAppPassword")
-	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
+	if(identical(app_id, "") | identical(app_pass, "")) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
 	auth <- authenticate(app_id, app_pass)
 	res <- GET("https://cloud.ocrsdk.com/", path=path, auth, query=query)
@@ -61,7 +62,7 @@ abbyy_POST <-
 function(path, query, body="") {
 
 	app_id = Sys.getenv("AbbyyAppId"); app_pass = Sys.getenv("AbbyyAppPassword")
-	if(is.null(app_id) | is.null(app_pass)) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
+	if(identical(app_id, "") | identical(app_pass, "")) stop("Please set application id and password using setapp(c('app_id', 'app_pass')).")
 	
 	auth <- authenticate(app_id, app_pass)
 	res <- POST("https://cloud.ocrsdk.com/", path=path, auth, query=query, body=body)

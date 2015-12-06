@@ -8,24 +8,25 @@
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/submitImage/} 
 #' @examples \dontrun{
-#' submitImage(file_path="/images/image1.png",taskId="task_id",pdfPassword="pdf_password")
+#' submitImage(file_path="/images/image1.png", taskId="task_id", pdfPassword="pdf_password")
 #' }
 
-submitImage <- function(file_path=NULL, taskId="", pdfPassword="")
+submitImage <- function(file_path="", taskId="", pdfPassword="")
 {
 	
-	if(is.null(file_path)) stop("Must specify file_path")
-	
-	# The API doesn't handle taskId="" and that is just as well as new task is created
-	if(taskId=="") querylist = list(pdfPassword=pdfPassword)
-	else querylist = list(taskId = taskId, pdfPassword=pdfPassword)
+	if (!file.exists(file_path)) stop("File Doesn't Exist. Please check the path.")
 
-	body=upload_file(file_path)
-	submitdetails <- abbyy_POST("submitImage", query=querylist, body=body)
+	# The API doesn't handle taskId="" and that is just as well as new task is created
+	if (taskId=="") {
+		querylist = list(pdfPassword=pdfPassword)
+	} else {
+		querylist = list(taskId = taskId, pdfPassword=pdfPassword)
+	}
+
+	body <- upload_file(file_path)
+	submit_details <- abbyy_POST("submitImage", query=querylist, body=body)
 	
-	resdf <- do.call(rbind.data.frame, submitdetails) # collapse to a data.frame
-	names(resdf) <- names(submitdetails[[1]])
-	row.names(resdf) <- 1
+	resdf <- as.data.frame(do.call(rbind, submit_details))
 
 	# Print some important things
 	cat("Status of the task: ", resdf$status, "\n")
