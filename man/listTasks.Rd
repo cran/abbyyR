@@ -7,24 +7,26 @@
 listTasks(fromDate=NULL, toDate=NULL, excludeDeleted = FALSE)
 }
 \arguments{
-\item{fromDate}{Optional;  format: yyyy-mm-ddThh:mm:ssZ}
+\item{fromDate}{Optional; format: yyyy-mm-ddThh:mm:ssZ}
 
-\item{toDate}{Optional;  format: yyyy-mm-ddThh:mm:ssZ}
+\item{toDate}{Optional;   format: yyyy-mm-ddThh:mm:ssZ}
 
 \item{excludeDeleted}{Optional; Boolean, Default=FALSE}
 }
 \value{
-A data frame with the following columns: id (task id), registrationTime, statusChangeTime, status 
+A data.frame with the following columns: id (task id), registrationTime, statusChangeTime, status 
 		   (Submitted, Queued, InProgress, Completed, ProcessingFailed, Deleted, NotEnoughCredits), filesCount (No. of files), 
         credits, resultUrl (URL for the processed file)).
 }
 \description{
 List all the tasks in the application. You can specify a date range and whether or not you want to include deleted tasks. 
-The function prints Total number of tasks and No. of Finished Tasks.
+The function prints total number of tasks and no. of finished tasks by default.
 }
 \examples{
 \dontrun{
-listTasks(fromDate=NULL, toDate=NULL, excludeDeleted = TRUE)
+listTasks()
+listTasks(fromDate="2015-11-10T00:00:00Z", toDate="2016-11-10T00:00:00Z")
+listTasks(fromDate="2015-11-10T00:00:00Z")
 }
 }
 \references{

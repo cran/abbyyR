@@ -1,7 +1,7 @@
 ---
 title: "Getting Text from Wisconsin Ads Storyboards Using abbyyR"
 author: "Gaurav Sood"
-date: "`r Sys.Date()`"
+date: "2016-05-15"
 vignette: >
   %\VignetteIndexEntry{Getting Text from Wisconsin Ads Storyboards Using abbyyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,7 +19,8 @@ Here below are the steps for getting text from static image storyboads using abb
 To get started, load the package. The latest version of the package will always be on github. Instructions for installing the package from github are provided below.
 
 
-```{r, eval=FALSE, install}
+
+```r
 library(abbyyR)
 ```
 
@@ -29,7 +30,8 @@ Your first task on loading the package should be to set the credentials - applic
 [http://ocrsdk.com/](http://ocrsdk.com/). Once you have the application ID and password, set it via the `setapp` function. 
 
 
-```{r, eval=FALSE, setapp}
+
+```r
 # setapp(c("factbook", "7YVBc8E6xMricoTwp0mF0aH"))
 ```
 
@@ -37,7 +39,8 @@ Your first task on loading the package should be to set the credentials - applic
 
 Some of you may want to start by deleting all existing tasks in an application.
 
-```{r, eval=FALSE, comments_listtask}
+
+```r
 "
 all_tasks <- listTasks()
 for (i in 1:nrow(all_tasks)) deleteTask(all_tasks$id[i]) 
@@ -47,7 +50,8 @@ for (i in 1:nrow(all_tasks)) deleteTask(all_tasks$id[i])
 #### Submit All Images in a Directory
 
 
-```{r, eval=FALSE, iterate}
+
+```r
 # Set path to directory with all the images
 path_to_img_dir <- paste0(path.package("abbyyR"),"/inst/extdata/wisc_ads/")
 total_files <- length(dir(path_to_img_dir))
@@ -76,22 +80,21 @@ for (i in dir(path_to_img_dir)){
 	pb$tick()
 	Sys.sleep(1/100)
 }
-
 ```
 
 #### Process All the Files
 
-```{r, eval=FALSE, process}
 
+```r
 for (i in 1:nrow(tracker)) processDocument(tracker$taskid[i]) 
-
 ```
 
 #### Are all the tasks completed?
 
 You can either wait and check manually or ping after every few seconds to check status like so:
 
-```{r, eval=FALSE, checktasks}
+
+```r
 "
 i <- 1
 
@@ -111,7 +114,8 @@ while(i < total_files){
 
 You need to setup an output folder. And then download all the completed files.
 
-```{r, eval=FALSE, download}
+
+```r
 setwd(paste0(path.package("abbyyR"),"/inst/extdata/wisc_out/"))
 
 finishedlist <- listFinishedTasks()
@@ -122,5 +126,4 @@ library(curl)
 for(i in 1:nrow(results)){
 	curl_download(results$resultUrl[i], destfile=results$filename[i])
 }
-
 ```

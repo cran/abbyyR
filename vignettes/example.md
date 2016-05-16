@@ -1,7 +1,7 @@
 ---
 title: "A Worked Out Example of Managing with abbyyR"
 author: "Gaurav Sood"
-date: "`r Sys.Date()`"
+date: "2016-05-15"
 vignette: >
   %\VignetteIndexEntry{A Worked Out Example of Managing with abbyyR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -14,12 +14,14 @@ To get started, load the package. The latest version of the package will always 
 
 
 
-```{r, eval=FALSE, loadlib}
+
+```r
 library(abbyyR)
 ```
 
 
-```{r, eval=FALSE, install}
+
+```r
 "
 Get the latest version from github:
 
@@ -34,14 +36,16 @@ Your first task on loading the package should be to set the credentials - applic
 [http://ocrsdk.com/](http://ocrsdk.com/). Once you have the application ID and password, set it via the `setapp` function. 
 
 
-```{r, eval=FALSE, setapp}
+
+```r
 setapp(c("factbook", "7YVBc8E6xMricoTwp0mF0aH"))
 ```
 
 #### Get Information about Application
 
 
-```{r, eval=FALSE, getinfo}
+
+```r
 getAppInfo()
 ```
 
@@ -58,7 +62,8 @@ getAppInfo()
 List all the tasks -- completed, in progress, queued etc. The function returns a data frame.
 
 
-```{r, eval=FALSE, listasks}
+
+```r
 tasklist <- listTasks()
 ```
 
@@ -67,7 +72,8 @@ tasklist <- listTasks()
 ## No. of Finished Tasks:  22
 ```
 
-```{r, eval=FALSE, checktasksMdelete}
+
+```r
 listTasks(excludeDeleted="true")
 ```
 
@@ -76,7 +82,8 @@ listTasks(excludeDeleted="true")
 ## No. of Finished Tasks:  22
 ```
 
-```{r, eval=FALSE, listtasksdaterange}
+
+```r
 listTasks(fromDate="2015-05-30T20:28:43Z", toDate="2015-05-31T20:28:43Z")
 ```
 
@@ -87,7 +94,8 @@ listTasks(fromDate="2015-05-30T20:28:43Z", toDate="2015-05-31T20:28:43Z")
 #### List Finished Tasks
 
 
-```{r, eval=FALSE, listfinished}
+
+```r
 listFinishedTasks()
 ```
 
@@ -98,7 +106,8 @@ listFinishedTasks()
 #### Get Task Status
 
 
-```{r, eval=FALSE, gettaskstatus}
+
+```r
 getTaskStatus(taskId="47f9b0d4-79a2-4aed-b656-2683a85ac203")
 ```
 
@@ -111,7 +120,8 @@ getTaskStatus(taskId="47f9b0d4-79a2-4aed-b656-2683a85ac203")
 Deleting an already deleted task will result in an error.
 
 
-```{r, eval=FALSE, deletetask}
+
+```r
 #deleteTask(taskId="47f9b0d4-79a2-4aed-b656-2683a85ac203")
 ```
 
@@ -121,7 +131,8 @@ Note: I am uploading a sample image that Abbyy provides for free to test its sof
 
 
 
-```{r, eval=FALSE, submittask}
+
+```r
 submitImage(file_path="t1.tif", pdfPassword="")
 ```
 
@@ -133,7 +144,8 @@ submitImage(file_path="t1.tif", pdfPassword="")
 **Process an Image**
 
 
-```{r, eval=FALSE, processimage}
+
+```r
 processImage(file_path="t1.tif")
 ```
 
@@ -145,7 +157,8 @@ processImage(file_path="t1.tif")
 **Process a Remote Image**
 
 
-```{r, eval=FALSE, processRemote}
+
+```r
 processRemoteImage(img_url="https://raw.githubusercontent.com/soodoku/abbyyR/master/inst/extdata/t1.TIF")
 ```
 
@@ -157,7 +170,8 @@ processRemoteImage(img_url="https://raw.githubusercontent.com/soodoku/abbyyR/mas
 **Process Document**
 
 
-```{r, eval=FALSE, processdoc}
+
+```r
 res <- listTasks()
 ```
 
@@ -166,7 +180,8 @@ res <- listTasks()
 ## No. of Finished Tasks:  23
 ```
 
-```{r, eval=FALSE, processdoc2}
+
+```r
 processDocument(taskId=res$id[res$status=="Submitted"][1])
 ```
 
@@ -179,6 +194,7 @@ processDocument(taskId=res$id[res$status=="Submitted"][1])
 Go through all the finished tasks and download all the data.
 
 
-```{r, eval=FALSE, getresults}
+
+```r
 # getResults()
 ```

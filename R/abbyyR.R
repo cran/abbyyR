@@ -15,10 +15,11 @@
 #' If you haven't already, get these at \url{http://ocrsdk.com/}. And set these using \code{\link{setapp}}
 #' 
 #' @importFrom utils read.table
+#' @importFrom stats setNames
 #' @importFrom httr GET POST authenticate config stop_for_status upload_file content
 #' @importFrom XML  xmlToList
 #' @importFrom curl curl_download curl_fetch_memory
-#' @importFrom RecordLinkage levenshteinDist
+#' @importFrom progress progress_bar
 #' @importFrom readr read_file
 #' @docType package
 #' @author Gaurav Sood
