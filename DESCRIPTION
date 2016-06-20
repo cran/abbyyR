@@ -1,6 +1,6 @@
 Package: abbyyR
 Title: Access to Abbyy Optical Character Recognition (OCR) API
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: person("Gaurav", "Sood", email = "gsood07@gmail.com", role = c("aut", "cre"))
 Maintainer: Gaurav Sood <gsood07@gmail.com>
 Description: Get text from images of text using Abbyy Cloud Optical Character
@@ -18,7 +18,7 @@ Imports: httr, XML, curl, readr, progress
 Suggests: testthat, rmarkdown, knitr (>= 1.11)
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-05-16 16:05:45 UTC; gaurav
+Packaged: 2016-06-20 13:01:38 UTC; gsood
 Author: Gaurav Sood [aut, cre]
 Repository: CRAN
-Date/Publication: 2016-05-16 19:38:46
+Date/Publication: 2016-06-20 17:32:00

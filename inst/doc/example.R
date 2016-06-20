@@ -1,13 +1,12 @@
-## ---- eval=FALSE, loadlib------------------------------------------------
-#  library(abbyyR)
+## ---- eval=FALSE, install_cran-------------------------------------------
+#  install.packages("abbyyR")
 
 ## ---- eval=FALSE, install------------------------------------------------
-#  "
-#  Get the latest version from github:
-#  
 #  # install.packages('devtools')
 #  devtools::install_github('soodoku/abbyyR')
-#  "
+
+## ---- eval=FALSE, loadlib------------------------------------------------
+#  library(abbyyR)
 
 ## ---- eval=FALSE, setapp-------------------------------------------------
 #  setapp(c("factbook", "7YVBc8E6xMricoTwp0mF0aH"))
@@ -34,13 +33,13 @@
 #  #deleteTask(taskId="47f9b0d4-79a2-4aed-b656-2683a85ac203")
 
 ## ---- eval=FALSE, submittask---------------------------------------------
-#  submitImage(file_path="t1.tif", pdfPassword="")
+#  submitImage(file_path="t1.png", pdfPassword="")
 
 ## ---- eval=FALSE, processimage-------------------------------------------
-#  processImage(file_path="t1.tif")
+#  processImage(file_path="t1.png")
 
 ## ---- eval=FALSE, processRemote------------------------------------------
-#  processRemoteImage(img_url="https://raw.githubusercontent.com/soodoku/abbyyR/master/inst/extdata/t1.TIF")
+#  processRemoteImage(img_url="https://raw.githubusercontent.com/soodoku/abbyyR/master/inst/extdata/t1.png")
 
 ## ---- eval=FALSE, processdoc---------------------------------------------
 #  res <- listTasks()
