@@ -8,7 +8,7 @@
 #' 
 #' @param \dots Additional arguments passed to \code{\link{abbyy_GET}}.
 #' 
-#' @return A data frame with the following columns: id (task id), registrationTime, statusChangeTime, 
+#' @return A \code{data.frame} with the following columns: id (task id), registrationTime, statusChangeTime, 
 #' status (Completed), filesCount (No. of files), credits, resultUrl (URL for the processed file)
 #' 
 #' @export
@@ -25,18 +25,16 @@ listFinishedTasks <- function(...) {
 	# Names of return df.
 	frame_names <- c("id", "registrationTime", "statusChangeTime", "status", "filesCount", "credits", "resultUrl")
 
-
 	if (is.null(tasklist)){
 		cat("No finished tasks in the application. \n")
 		no_dat <- read.table(text = "", col.names = frame_names)
 		return(invisible(no_dat))
 	}
 
-	resdf <- as.data.frame(do.call(rbind, tasklist)) # collapse to a data.frame
-	row.names(resdf) <- 1:nrow(resdf)	# row.names for the df
-	
+	resdf <- ldply(tasklist, rbind) 
+		
 	# Print some important things
 	cat("No. of Finished Tasks: ", nrow(resdf), "\n")
 
-	return(invisible(resdf))
+	resdf
 }

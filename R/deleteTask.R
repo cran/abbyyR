@@ -6,10 +6,13 @@
 #'  
 #' The function by default prints the status of the task you are trying to delete. It will show up as 'deleted' if successful.
 #' 
-#' @param taskId Required; Id of the task
+#' @param taskId Required; ID of the task; String
 #' @param \dots Additional arguments passed to \code{\link{abbyy_GET}}.
 #' 
-#' @return Data frame with all the details of the task you are trying to delete: id (task id), registrationTime, statusChangeTime, status (Submitted, Queued, InProgress, Completed, ProcessingFailed, Deleted, NotEnoughCredits), filesCount (No. of files), credits, resultUrl (URL for the processed file if applicable)
+#' @return Data frame with all the details of the task you are trying to delete: 
+#' id (task id), registrationTime, statusChangeTime, status (Submitted, Queued, InProgress, 
+#' Completed, ProcessingFailed, Deleted, NotEnoughCredits), filesCount (No. of files), credits, 
+#' resultUrl (URL for the processed file if applicable)
 #' 
 #' @export
 #' 
@@ -19,14 +22,14 @@
 #' deleteTask(taskId="task_id")
 #' }
 
-deleteTask <- function(taskId=NULL, ...){
+deleteTask <- function(taskId = NULL, ...){
 		
-	if (is.null(taskId)) stop("Must specify taskId")
+	if (is.null(taskId)) stop("must provide taskId.", call. = FALSE)
 
 	# Get the status of the task
-	task_status <- getTaskStatus(taskId)
+	task_status <- getTaskStatus(taskId, ...)
 	
-	if (task_status$status == 'Deleted') {
+	if (identical(task_status$status, 'Deleted')) {
 		# Print status of the task
 		cat("Status of the task: ", task_status$status, "\n")
 		
@@ -34,12 +37,12 @@ deleteTask <- function(taskId=NULL, ...){
 		
 		querylist = list(taskId = taskId)
 		deleted_task_details <- abbyy_GET("deleteTask", query=querylist, ...)
-		resdf <- as.data.frame(do.call(rbind, deleted_task_details))
+		resdf <- ldply(deleted_task_details, rbind)
 	
 		# Print status of the task
 		cat("Status of the task: ", resdf$status, "\n")
-		return(invisible(resdf))
+		resdf
 	}
 
-	return(invisible(task_status))
+	task_status
 }

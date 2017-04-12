@@ -4,6 +4,7 @@
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/yh856e6cv7uucaj2?svg=true)](https://ci.appveyor.com/project/soodoku/abbyyR)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/abbyyR)](https://cran.r-project.org/package=abbyyR)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/abbyyR)
+[![codecov](https://codecov.io/gh/soodoku/abbyyR/branch/master/graph/badge.svg)](https://codecov.io/gh/soodoku/abbyyR)
 
 Easily OCR images, barcodes, forms, documents with machine readable zones, e.g. passports, right from R. Get the results in a wide variety of formats, from text files to detailed XMLs with information about bounding boxes, etc.
 
@@ -40,3 +41,7 @@ The final output quality varies by complexity of the layout to resolution to fon
 
 ### License
 Scripts are released under the [MIT License](https://opensource.org/licenses/MIT).
+
+### Contributor Code of Conduct
+
+The project welcomes contributions from everyone! In fact, it depends on it. To maintain this welcoming atmosphere, and to collaborate in a fun and productive way, we expect contributors to the project to abide by the [Contributor Code of Conduct](http://contributor-covenant.org/version/1/0/0/).
