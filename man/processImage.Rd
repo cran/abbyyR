@@ -10,10 +10,10 @@ processImage(file_path = "", language = "English",
   "typewriter", "matrix", "index", "ocrA", "ocrB", "e13b", "cmc7", "gothic"),
   imageSource = c("auto", "photo", "scanner"),
   correctOrientation = c("true", "false"), correctSkew = c("true", "false"),
-  readBarcodes = c("false", "true"), exportFormat = c("txt",
-  "txtUnstructured", "rtf", "docx", "xlsx", "pptx", "pdfSearchable",
-  "pdfTextAndImages", "pdfa", "xml", "xmlForCorrectedImage", "alto"),
-  description = "", pdfPassword = "", ...)
+  region = "-1,-1,-1,-1", readBarcodes = c("false", "true"),
+  exportFormat = c("txt", "txtUnstructured", "rtf", "docx", "xlsx", "pptx",
+  "pdfSearchable", "pdfTextAndImages", "pdfa", "xml", "xmlForCorrectedImage",
+  "alto"), description = "", pdfPassword = "", ...)
 }
 \arguments{
 \item{file_path}{path to the document}
@@ -35,6 +35,8 @@ Options: \code{true} or \code{false}}
 \item{correctSkew}{String. Optional; default: \code{true}.
 Options: \code{true} or \code{false}}
 
+\item{region}{String. Optional. Default: "-1,-1,-1,-1". Region of the image.}
+
 \item{readBarcodes}{Optional; 
 Options: \code{true} or \code{false}}
 
@@ -55,7 +57,7 @@ This function processes an image
 }
 \examples{
 \dontrun{
-processImage(file_path="file_path", language="English", exportFormat="txtUnstructured")
+processImage(file_path = "file_path", language = "English", exportFormat = "txtUnstructured")
 }
 }
 \references{

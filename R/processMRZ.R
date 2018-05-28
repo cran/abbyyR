@@ -8,22 +8,24 @@
 #' @export
 #' @references \url{http://ocrsdk.com/documentation/apireference/processMRZ/}
 #' @examples \dontrun{
-#' processMRZ(file_path="file_path")
+#' processMRZ(file_path = "file_path")
 #' }
 
-processMRZ <- function(file_path="", ...) {
-	
-	if (!file.exists(file_path)) stop("File Doesn't Exist. Please check the path.")
+processMRZ <- function(file_path = "", ...) {
 
-	body=upload_file(file_path)
-	
-	process_details <- abbyy_POST("processMRZ", body=body, ...)
+  if (!file.exists(file_path)) {
+    stop("File Doesn't Exist. Please check the path.")
+  }
 
-	resdf <- ldply(process_details, rbind)
+  body <- upload_file(file_path)
 
-	# Print some important things
-	cat("Status of the task: ", resdf$status, "\n")
-	cat("Task ID: ", 			resdf$id, "\n")
+  process_details <- abbyy_POST("processMRZ", body = body, ...)
 
-	resdf
+  resdf <- ldply(process_details, rbind)
+
+  # Print some important things
+  cat("Status of the task: ", resdf$status, "\n")
+  cat("Task ID: ",       resdf$id, "\n")
+
+  resdf
 }

@@ -1,3 +1,11 @@
+# abbyyR 0.5.3
+
+* add region argument to processImage()
+
+# abbyyR 0.5.2
+
+* extensive linting. passes expect_lint_free
+
 # abbyyR 0.5.1
 
 * moved to ldply for coercing list to data.frame

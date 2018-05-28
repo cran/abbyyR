@@ -19,22 +19,24 @@
 #' }
 
 listFinishedTasks <- function(...) {
-	
-	tasklist <- abbyy_GET("listFinishedTasks", query="", ...)	
 
-	# Names of return df.
-	frame_names <- c("id", "registrationTime", "statusChangeTime", "status", "filesCount", "credits", "resultUrl")
+  tasklist <- abbyy_GET("listFinishedTasks", query = "", ...)
 
-	if (is.null(tasklist)){
-		cat("No finished tasks in the application. \n")
-		no_dat <- read.table(text = "", col.names = frame_names)
-		return(invisible(no_dat))
-	}
+  # Names of return df.
+  frame_names <- c("id", "registrationTime", "statusChangeTime",
+                   "status", "filesCount", "credits", "resultUrl")
 
-	resdf <- ldply(tasklist, rbind) 
-		
-	# Print some important things
-	cat("No. of Finished Tasks: ", nrow(resdf), "\n")
+  if (is.null(tasklist)){
+    cat("No finished tasks in the application. \n")
+    no_dat <- read.table(text = "", col.names = frame_names,
+                         stringsAsFactors = FALSE)
+    return(invisible(no_dat))
+  }
 
-	resdf
+  resdf <- ldply(tasklist, rbind)
+
+  # Print some important things
+  cat("No. of Finished Tasks: ", nrow(resdf), "\n")
+
+  resdf
 }
