@@ -30,8 +30,10 @@ submitImage <- function(file_path = "", taskId = "", pdfPassword = "", ...) {
                                query = querylist,
                                body = upload_file(file_path), ...)
 
-  resdf <- as.data.frame(do.call(rbind, submit_details))
 
+  resdf <- ldply(submit_details, rbind, .id = NULL)
+  row.names(resdf) <- NULL
+  resdf[] <- lapply(resdf, as.character)
   # Print some important things
   cat("Status of the task: ", resdf$status, "\n")
   cat("Task ID: ",       resdf$id, "\n")
